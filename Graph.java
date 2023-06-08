@@ -46,10 +46,10 @@ public class Graph {
     public void bfs(Ports inicio) {
         int wayCount = ports.size();
         LinkedList<Point> fila = new LinkedList<>();
-        int visited = 0;
+        int visited = 1;
         
         fila.offer(this.points.get(Integer.toString(inicio.getCol()) + Integer.toString(inicio.getRow())));
-
+        this.points.get(Integer.toString(inicio.getCol()) + Integer.toString(inicio.getRow())).setIsVisited();
         while (!fila.isEmpty()) {
             Point actualPosition = fila.poll();
 
@@ -58,7 +58,7 @@ public class Graph {
                     System.out.println(port.getCol() + " " + port.getRow());
                 }
             }
-            //System.out.println(actualPosition.getValue());
+            System.out.print(actualPosition.getValue());
             List<Point> neighbors = getNeighborhood(actualPosition);
             
             for (Point neighbor : neighbors) {
@@ -67,7 +67,7 @@ public class Graph {
                     fila.offer(neighbor);
                     neighbor.setFather(actualPosition);
 
-                    Ports nextPort = ports.get(0);
+                    Ports nextPort = ports.get(visited);
                     if (neighbor.getIsPort() && neighbor.getValue() == nextPort.getValue() && !nextPort.getVisited()) {
                         visited++;
                         ports.set(Math.negateExact(visited), nextPort);
