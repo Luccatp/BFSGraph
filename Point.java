@@ -1,11 +1,13 @@
 public class Point {
+  private char value;
   private int col;
   private int row;
   private boolean isVisited;
   private Point father;
   private boolean isPort;
 
-  public Point(int col, int row) {
+  public Point(int col, int row, char value) {
+    this.value = value;
     this.col = col;
     this.row = row;
     this.isPort = false;
@@ -33,6 +35,10 @@ public class Point {
 
   public boolean getIsPort() {
     return isPort;
+  }
+
+  public char getValue() {
+    return value;
   }
 
   public int getRow() {

@@ -8,14 +8,15 @@ public class Main {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("casos-cohen/mapa30.txt"));
             String[] firstLine = reader.readLine().split(" ");
-            int col = Integer.parseInt(firstLine[0]);
-            int linha = Integer.parseInt(firstLine[1]);
+            int linha = Integer.parseInt(firstLine[0]);
+            int coluna = Integer.parseInt(firstLine[1]);
 
-            char[][] map = new char[col][linha];
+            char[][] map = new char[linha][coluna];
 
-            for (int r = 0; r < col; r++) {
+            for (int r = 0; r < linha; r++) {
                 map[r] = reader.readLine().toCharArray();
             }
+            
             Graph graph = new Graph(map);
 
             reader.close();
