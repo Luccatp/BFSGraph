@@ -60,24 +60,20 @@ public class Graph {
             }
             //System.out.println(actualPosition.getValue());
             List<Point> neighbors = getNeighborhood(actualPosition);
-            for (int i = 0; i < neighbors.size(); i++) {
-                Point valor = neighbors.get(i);
-                System.out.println(valor.getValue());
-            }
-            /* for (Point neighbor : neighbors) {
+            
+            for (Point neighbor : neighbors) {
                 if (neighbor != null && !neighbor.getIsVisited()) {
                     neighbor.setIsVisited();
                     fila.offer(neighbor);
                     neighbor.setFather(actualPosition);
 
                     Ports nextPort = ports.get(0);
-                    if (neighbor.getIsPort() && neighbor.getCol() == nextPort.getCol()
-                            && neighbor.getRow() == nextPort.getRow() && !nextPort.getVisited()) {
+                    if (neighbor.getIsPort() && neighbor.getValue() == nextPort.getValue() && !nextPort.getVisited()) {
                         visited++;
-                        ports.set(-1, nextPort);
+                        ports.set(Math.negateExact(visited), nextPort);
                     }
                 } 
-            }*/
+            }
         }
     }
 
@@ -94,13 +90,11 @@ public class Graph {
         int columns = this.map[0].length;
 
         for (int[] direcao : direcoes) {
-            int novaColuna = actualPosition.getCol() + direcao[0];
-            int novaLinha = actualPosition.getRow() + direcao[1];
-
-            System.out.println(novaLinha + " " + novaColuna + " " + actualPosition.getValue());
+            int newCol = actualPosition.getCol() + direcao[0];
+            int newRow = actualPosition.getRow() + direcao[1];
             
-            if (novaLinha >= 0 && novaLinha < lines && novaColuna >= 0 && novaColuna < columns && this.map[novaLinha][novaColuna] != '*') {
-                neightbors.add(this.points.get(Integer.toString(novaColuna) + Integer.toString(novaLinha)));
+            if (newRow >= 0 && newRow < lines && newCol >= 0 && newCol < columns && this.map[newRow][newCol] != '*') {
+                neightbors.add(this.points.get(Integer.toString(newCol) + Integer.toString(newRow)));
             }
         }
 
