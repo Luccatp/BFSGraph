@@ -18,6 +18,7 @@ public class Graph {
     private char[][] map;
     private List<Ports> ports = new LinkedList<>();
     private HashMap<String, Point> points = new HashMap<>();
+    private int gasoline = 0;
 
     public Graph(char[][] map) {
         this.map = map;
@@ -49,6 +50,7 @@ public class Graph {
 
         while (!fila.isEmpty()) {
             Point actualPosition = fila.poll();
+            gasoline++;
             if(Character.isDigit(actualPosition.getValue())) {
                 if (Character.digit(actualPosition.getValue(), 10) == destino.getValue()) {
                     //System.out.println("Encontrei");
@@ -118,7 +120,7 @@ public class Graph {
     public void getResults() {
         //System.out.println(ports.get(7).getValue());
 
-        for (int i = 0; i < ports.size(); i++) {
+        for (int i = 0; i < ports.size()-1; i++) {
             System.out.println(ports.get(i).getValue());
             List<int[]> pathTo = bfs(ports.get(i), ports.get(i + 1));
             if(pathTo == null) {
@@ -131,5 +133,6 @@ public class Graph {
             System.out.println();
             pathTo.clear();
         }
+        System.out.println("Gasolina gasta para ir e voltar entre os portos: " + this.gasoline*2);
     }
 }
