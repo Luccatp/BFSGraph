@@ -49,4 +49,8 @@ public class Point {
     return col;
   }
 
+  public String getKey() {
+    return Integer.toString(this.col) + Integer.toString(this.row);
+  }
+
 }

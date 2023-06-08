@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.RecursiveTask;
 
 public class Graph {
 
@@ -34,47 +36,39 @@ public class Graph {
             }
         }
         Collections.sort(ports);
-
-        //Iterator<Ports> iterator = ports.iterator();
-        //while (iterator.hasNext()) {
-        //    Ports valor = iterator.next();
-        //    System.out.println(valor.getValue());
-        //}
-        bfs(ports.get(0));
     }
 
-    public void bfs(Ports inicio) {
-        int wayCount = ports.size();
+    public List<int[]> bfs(Ports inicio, Ports destino) {
         LinkedList<Point> fila = new LinkedList<>();
-        int visited = 1;
-        
-        fila.offer(this.points.get(Integer.toString(inicio.getCol()) + Integer.toString(inicio.getRow())));
-        this.points.get(Integer.toString(inicio.getCol()) + Integer.toString(inicio.getRow())).setIsVisited();
+        Map<String, Point> pais = new HashMap<>();
+        //System.out.println(destino.getValue());
+        fila.offer(this.points.get(inicio.getKey()));
+        this.points.get(inicio.getKey()).setIsVisited();
+
         while (!fila.isEmpty()) {
             Point actualPosition = fila.poll();
-
-            if (visited == ports.size()) {
-                for (Ports port : ports) {
-                    System.out.println(port.getCol() + " " + port.getRow());
+            if(Character.isDigit(actualPosition.getValue())) {
+                if (Character.digit(actualPosition.getValue(), 10) == destino.getValue()) {
+                    //System.out.println("Encontrei");
+                    return reconstruirCaminho(this.points.get(inicio.getKey()), actualPosition, pais);
                 }
             }
-            System.out.print(actualPosition.getValue());
+            
+            //System.out.print(actualPosition.getValue());
             List<Point> neighbors = getNeighborhood(actualPosition);
             
             for (Point neighbor : neighbors) {
                 if (neighbor != null && !neighbor.getIsVisited()) {
+                    if(neighbor.getIsPort() && !neighbor.getKey().equals(destino.getKey())) {
+                        continue;
+                    }
                     neighbor.setIsVisited();
                     fila.offer(neighbor);
-                    neighbor.setFather(actualPosition);
-
-                    Ports nextPort = ports.get(visited);
-                    if (neighbor.getIsPort() && neighbor.getValue() == nextPort.getValue() && !nextPort.getVisited()) {
-                        visited++;
-                        ports.set(Math.negateExact(visited), nextPort);
-                    }
+                    pais.put(neighbor.getKey(), actualPosition);
                 } 
             }
         }
+        return null;
     }
 
     public List<Point> getNeighborhood(Point actualPosition) {
@@ -99,5 +93,38 @@ public class Graph {
         }
 
         return neightbors;
+    }
+
+    public static List<int[]> reconstruirCaminho(Point inicio, Point destino, Map<String, Point> pais) {
+        List<int[]> caminho = new ArrayList<>();
+        Point actualPosition = destino;
+
+        while (!actualPosition.getKey().equals(inicio.getKey()) ) {
+            int[] position = new int[2];
+            position[0] = actualPosition.getRow();
+            position[1] = actualPosition.getCol();
+            caminho.add(position);
+            actualPosition = pais.get(actualPosition.getKey());
+        }
+        int[] initialPosition = new int[2];
+        initialPosition[0] = inicio.getRow();
+        initialPosition[1] = inicio.getCol();
+        caminho.add(initialPosition);
+        Collections.reverse(caminho);
+
+        return caminho;
+    }
+
+    public void getResults() {
+        for(int i = 0; i < ports.size()-1; i++) {
+            System.out.println(ports.get(i).getValue());
+            List<int[]> pathTo = bfs(ports.get(i),ports.get(i+1));
+            
+            for(int j = 0; j < pathTo.size(); j++) {
+                System.out.println(pathTo.get(j)[0] + " " + pathTo.get(j)[1]);
+            }
+            System.out.println();
+            pathTo.clear();
+        }
     }
 }

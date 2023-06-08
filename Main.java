@@ -16,14 +16,13 @@ public class Main {
             for (int r = 0; r < linha; r++) {
                 map[r] = reader.readLine().toCharArray();
             }
-            
             Graph graph = new Graph(map);
-
+            graph.getResults();
             reader.close();
         } catch (
-
         Exception e) {
             System.out.println(e.getMessage());
         }
+        
     }
 }

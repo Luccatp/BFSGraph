@@ -81,3 +81,66 @@ class Main {
     }
 
     public static List<int[]> obterVizinhos(int[][] mapa, int[] posicao)
+
+
+
+
+
+
+    public static List<int[]> bfs(char[][] mapa, int[] inicio, int[] destino) {
+        int[][] direcoes = {
+            {-1, 0}, // Cima
+            {1, 0},  // Baixo
+            {0, -1}, // Esquerda
+            {0, 1}   // Direita
+        };
+
+        int linhas = mapa.length;
+        int colunas = mapa[0].length;
+
+        Set<String> visitados = new HashSet<>();
+        Queue<int[]> fila = new LinkedList<>();
+        Map<String, int[]> pais = new HashMap<>();
+
+        fila.offer(inicio);
+        visitados.add(Arrays.toString(inicio));
+
+        while (!fila.isEmpty()) {
+            int[] posicaoAtual = fila.poll();
+
+            if (Arrays.equals(posicaoAtual, destino)) {
+                return reconstruirCaminho(inicio, posicaoAtual, pais);
+            }
+
+            for (int[] direcao : direcoes) {
+                int novaLinha = posicaoAtual[0] + direcao[0];
+                int novaColuna = posicaoAtual[1] + direcao[1];
+
+                if (novaLinha >= 0 && novaLinha < linhas && novaColuna >= 0 && novaColuna < colunas &&
+                        mapa[novaLinha][novaColuna] != '#' && !visitados.contains(Arrays.toString(new int[]{novaLinha, novaColuna}))) {
+                    int[] vizinho = {novaLinha, novaColuna};
+                    fila.offer(vizinho);
+                    visitados.add(Arrays.toString(vizinho));
+                    pais.put(Arrays.toString(vizinho), posicaoAtual);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static List<int[]> reconstruirCaminho(int[] inicio, int[] destino, Map<String, int[]> pais) {
+        List<int[]> caminho = new ArrayList<>();
+        int[] posicaoAtual = destino;
+
+        while (!Arrays.equals(posicaoAtual, inicio)) {
+            caminho.add(posicaoAtual);
+            posicaoAtual = pais.get(Arrays.toString(posicaoAtual));
+        }
+
+        caminho.add(inicio);
+        Collections.reverse(caminho);
+
+        return caminho;
+    }
+}

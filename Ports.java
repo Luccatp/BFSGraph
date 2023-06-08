@@ -31,6 +31,10 @@ public class Ports implements Comparable<Ports> {
     return this.visited;
   }
 
+  public String getKey() {
+    return Integer.toString(this.col) + Integer.toString(this.row);
+  }
+
   @Override
   public int compareTo(Ports anotherPort) {
     if (this.value < anotherPort.value) {
