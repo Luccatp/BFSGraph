@@ -6,11 +6,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("casos-cohen/mapa2000.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("casos-cohen/mapa30.txt"));
             String[] firstLine = reader.readLine().split(" ");
             int col = Integer.parseInt(firstLine[0]);
             int linha = Integer.parseInt(firstLine[1]);
-            
 
             char[][] map = new char[col][linha];
 

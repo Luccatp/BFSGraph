@@ -1,8 +1,8 @@
 public class Ports implements Comparable<Ports> {
-  int col;
-  int row;
-  int value;
-  boolean visited;
+  private int col;
+  private int row;
+  private int value;
+  private boolean visited;
 
   public Ports(int value, int col, int row) {
     this.col = col;
@@ -14,12 +14,13 @@ public class Ports implements Comparable<Ports> {
   public int getValue() {
     return this.value;
   }
-  
-  public int[] getPosition() {
-    int[] position = new int[2];
-    position[0] = this.col;
-    position[1] = this.row;
-    return position;
+
+  public int getCol() {
+    return this.col;
+  }
+
+  public int getRow() {
+    return this.row;
   }
 
   public void setIsVisited() {
@@ -40,5 +41,5 @@ public class Ports implements Comparable<Ports> {
     }
     return 0;
   }
-  
+
 }
