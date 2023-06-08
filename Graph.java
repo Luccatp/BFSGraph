@@ -57,7 +57,7 @@ public class Graph {
                 }
             }
             
-            System.out.print(actualPosition.getValue());
+            //System.out.print(actualPosition.getValue());
             List<Point> neighbors = getNeighborhood(actualPosition);
             
             for (Point neighbor : neighbors) {
@@ -116,13 +116,20 @@ public class Graph {
     }
 
     public void getResults() {
-        System.out.println(ports.get(7).getValue());
-        List<int[]> pathTo = bfs(ports.get(7), ports.get(7 + 1));
+        //System.out.println(ports.get(7).getValue());
+
+        for (int i = 0; i < ports.size(); i++) {
+            System.out.println(ports.get(i).getValue());
+            List<int[]> pathTo = bfs(ports.get(i), ports.get(i + 1));
             if(pathTo == null) {
-                System.out.println("MDS");
+                System.out.println("Sem caminho para o port " + ports.get(i + 1).getValue());
+                continue;
             }
             for (int j = 0; j < pathTo.size(); j++) {
                 System.out.println(pathTo.get(j)[0] + " " + pathTo.get(j)[1]);
             }
+            System.out.println();
+            pathTo.clear();
+        }
     }
 }
